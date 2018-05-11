@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Friend Finder</title>
+</head>
+
+<body>
+    <h3>
+        <strong>About You</strong>
+    </h3>
+    <h4>Name?</h4>
+    <input type="text" id="name" class="form-control" required>
+
+    <h3>
+        <strong>Question 1</strong>
+    </h3>
+    <h4>Hot dogs?</h4>
+    <select class="chosen-select" id="q1">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+
+    <h3>
+        <strong>Question 2</strong>
+    </h3>
+    <h4>Please recycle your cans and bottles.</h4>
+    <select class="chosen-select" id="q2">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+
+    <h3>
+        <strong>Question 3</strong>
+    </h3>
+    <h4>What are a few planets</h4>
+    <select class="chosen-select" id="q3">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+
+    <h3>
+        <strong>Question 4</strong>
+    </h3>
+    <h4>There isn't any evidence searing a steak before cooking in the oven "locks in the juices"</h4>
+    <select class="chosen-select" id="q4">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+
+    <h3>
+        <strong>Question 5</strong>
+    </h3>
+    <h4>bees?</h4>
+    <select class="chosen-select" id="q5">
+        <option value=""></option>
+        <option value="1">1 (Strongly Disagree)</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5 (Strongly Agree)</option>
+    </select>
+    <br>
+    <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">
+        bootstrap sure is great</button>
+
+</body>
+
+<div id="results-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="row">
+            <div class="col-xs-6">
+                <h4>You answered:</h4>
+                <p id="userAnswer"></p>
+            </div>
+            <div class="col-xs-6">
+                <h4>Ahmed answered:</h4>
+                <p>3 5 2 1 5</p>
+            </div>
+        </div>
+        <div class="row">
+            <h4 id="score"></h4>
+        </div>
+    </div>
+</div>
+
+</html>
+<script>
+    var ahmed = {
+        name: "ahmed",
+        scores: [3, 5, 2, 5, 1,]
+    };
+    $("#submit").on("click", function () {
+        //right now i just validate if a name is in.
+        //a missing score value translates to -4 to punish you for not filling it out
+        if ($("#name").val()) {
+            var user = {
+                name: $("#name").val(),
+                scores: [$("#q1").val() || -4, $("#q2").val() || -4, $("#q3").val() || -4, $("#q4").val() || -4, $("#q5").val() || -4]
+            };
+            var totalscore = [];
+            let displayscore = $("<p>");
+            for (let i = 0; i < user.scores.length; i++) {
+                var match = Math.abs(ahmed.scores[i] - user.scores[i]);
+                totalscore.push(match);
+                $(displayscore).append(user.scores[i] + " ");
+            }
+            $("#userAnswer").append(displayscore);
+            //injecting some es6 into this old assignment
+            const reducer = (accumulator, currentValue) => accumulator + currentValue;
+            var perc = Math.abs((totalscore.reduce(reducer) * 10) - 100);
+            alert("You matched " + perc + "% with ahmed!");
+        }
+        else {
+            alert("At least submit a name!");
+        }
+
+
+    })
+
+</script>
